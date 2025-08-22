@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.5</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.datacoins</groupId>
-	<artifactId>Biblioteca</artifactId>
+	<artifactId>biblioteca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Biblioteca</name>
-	<description>Demo de crud de Biblioteca</description>
+	<name>biblioteca</name>
+	<description>Desarrolla una aplicación de consola para administrar los libros de una
+		biblioteca. El sistema debe permitir a los bibliotecarios registrar nuevos
+		libros, ver la lista completa de libros disponibles y buscar libros por
+		título, autor o género, actualizar la información de un libro existente, como
+		su cantidad o ubicación, y eliminar un libro del registro. La información de
+		los libros (ID, título, autor, género, cantidad) deberá persistir en una base
+		de datos.
+	</description>
 	<url/>
 	<licenses>
 		<license/>
