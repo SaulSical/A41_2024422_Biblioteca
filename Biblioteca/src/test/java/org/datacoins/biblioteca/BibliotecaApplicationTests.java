@@ -1,4 +1,4 @@
-package org.datacoins.Biblioteca;
+package org.datacoins.biblioteca;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
