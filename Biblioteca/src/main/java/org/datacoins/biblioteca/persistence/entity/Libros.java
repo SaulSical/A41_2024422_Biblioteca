@@ -14,13 +14,18 @@ public class Libros {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codigoLibro")
     private Integer codigoLibro;
 
-    @Column
+    @Column(name = "titulo")
     private String titulo;
+    @Column(name = "cantidad")
     private Integer cantidad;
+    @Column(name = "autor")
     private String autor;
+    @Column(name = "codigoGenero")
     private Integer codigoGenero;
+    @Column(name = "codigoUbicacion")
     private Integer codigoUbicacion;
 
 }

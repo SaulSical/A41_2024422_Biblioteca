@@ -1,24 +1,6 @@
 drop database if exists Libreria_Datacoins;
 create database Libreria_Datacoins;
 use Libreria_Datacoins;
- 
-create table libros(
-	codigoLibro integer auto_increment,
-    titulo varchar (64),
-    cantidad int,
-    autor varchar (16),
-	codigoGenero int not null,
-    codigoUbicacion int not null,
-    
-    constraint pk_libros primary key (codigoLibro),
-    
-    constraint fk_libros_generos foreign key(codigoGenero)
-		references generos (codigoGenero)on delete cascade,
-        
-	constraint fk_libros_ubicacion foreign key(codigoUbicacion)
-		references ubicacion (codigoUbicacion)on delete cascade
-    
-);
 
 create table generos(
 	codigoGenero int auto_increment,
@@ -39,3 +21,22 @@ create table ubicacion(
     constraint pk_ubicacion primary key (codigoUbicacion)
     
 );
+ 
+create table libros(
+	codigoLibro integer auto_increment,
+    titulo varchar (64),
+    cantidad int,
+    autor varchar (16),
+	codigoGenero int not null,
+    codigoUbicacion int not null,
+    
+    constraint pk_libros primary key (codigoLibro),
+    
+    constraint fk_libros_generos foreign key(codigoGenero)
+		references generos(codigoGenero)on delete cascade,
+        
+	constraint fk_libros_ubicacion foreign key(codigoUbicacion)
+		references ubicacion(codigoUbicacion)on delete cascade
+    
+);
+
