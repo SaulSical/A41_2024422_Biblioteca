@@ -1,6 +1,10 @@
 package org.datacoins.biblioteca;
 
-import org.datacoins.biblioteca.persistence.entity.Libros;
+
+import org.datacoins.biblioteca.dominio.service.IGeneroService;
+import org.datacoins.biblioteca.dominio.service.IUbicacionService;
+import org.datacoins.biblioteca.persistence.entity.Generos;
+import org.datacoins.biblioteca.persistence.entity.Ubicacion;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.slf4j.Logger;
@@ -11,12 +15,19 @@ import org.datacoins.biblioteca.dominio.service.LibroService;
 import org.datacoins.biblioteca.dominio.service.ILibroService;
 import java.util.List;
 import java.util.Scanner;
+import org.datacoins.biblioteca.persistence.entity.Libros;
 
 @SpringBootApplication
-public class BibliotecaApplication {
+public class BibliotecaApplication implements CommandLineRunner {
 
 	@Autowired
 	private ILibroService libroService;
+
+	@Autowired
+	private IGeneroService generoService;
+
+	@Autowired
+	private IUbicacionService ubicacionService;
 
 	private static final Logger logger = LoggerFactory.getLogger(BibliotecaApplication.class);
 
@@ -29,17 +40,17 @@ public class BibliotecaApplication {
 	}
 
 	@Override
-	public void run(String ... args)throws Exception{
-
+	public void run(String ... args) throws Exception{
 		BibliotecaLibroApp();
 	}
+
 	private void BibliotecaLibroApp(){
 		logger.info("***Aplicacion de Biblioteca A1***");
 		var salir = false;
 		var consola = new Scanner(System.in);
 		while(!salir){
 			var opcion = mostrarMenu(consola);
-			var salir = ejecutarOpciones(consola, opcion);
+			salir = ejecutarOpciones(consola, opcion);
 			logger.info(sl);
 		}
 	}
@@ -49,8 +60,8 @@ public class BibliotecaApplication {
 					\n ***Menu de BIBLIOTECS****
 					1. Listar Libros
 					2. Buscar Libros
-					3. Modificar Libros
-					4. Agregar Libros
+					3. Agrega Libros
+					4. Modifica Libros
 					5. eliminar Libros
 					6. Listar Generos
 					7. Listar Ubicaciones
@@ -65,13 +76,13 @@ public class BibliotecaApplication {
 		var salir = false;
 		switch (opcion){
 			case 1 ->{
-				logger.info(sl+"**Listado de todos los clientes***");
+				logger.info(sl+"**Listado de todos los Libros***");
 				List<Libros> libros = libroService.listarLibros();
 				libros.forEach( libros1 -> logger.info(libros1.toString()+sl));
 			}
 			case 2 ->{
 
-				logger.info(sl + "Buscar Cliente por su código" + sl);
+				logger.info(sl + "Buscar Libro por su código" + sl);
 				var codigo = Integer.parseInt(consola.nextLine());
 				Libros libros = libroService.buscarLibroProId(codigo);
 				if (libros != null) {
@@ -82,99 +93,109 @@ public class BibliotecaApplication {
 			}
 			case 3 ->{
 
-				logger.info(sl+"***Agregar nuevo cliente***"+sl);
+				logger.info(sl+"***Agregar nuevo Libro***"+sl);
 				logger.info("Ingrese el Titulo: ");
 				var titulo = consola.nextLine();
 				logger.info("Ingrese la cantidad: ");
-				var apellido = Integer.parseInt(consola.nextLine());
-				logger.info("Ingrese el telefono: ");
-				var telefono = consola.nextLine();
-				logger.info("Ingrese el correo: ");
-				var correo = consola.nextLine();
-				logger.info("Ingrese el genero: ");
-				var genero = consola.nextLine();
-				logger.info("Ingrese la edad: ");
-				var edad = Integer.parseInt(consola.nextLine());
-				var cliente = new Cliente();
-				cliente.setNombre(nombre);
-				cliente.setApellido(apellido);
-				cliente.setTelefono(telefono);
-				cliente.setCorreo(correo);
-				cliente.setGenero(genero);
-				cliente.setEdad(edad);
-				clienteService.gurdarCliente(cliente);
-				logger.info("Cliente agregado: "+sl +cliente +sl);
+				var cantidad = Integer.parseInt(consola.nextLine());
+				logger.info("Ingrese el autor: ");
+				var autor = consola.nextLine();
+				logger.info("Ingrese el codig del Genero: ");
+				logger.info(sl+"**Listado de todos los Generos***");
+				List<Generos> generos = generoService.listarGeneros();
+				generos.forEach( generos1 -> logger.info(generos1.toString()+sl));
+				var codigoGenero = Integer.parseInt(consola.nextLine());
+				logger.info("Ingrese el codigo de la Ubicacion: ");
+				logger.info(sl+"**Listado de todos las Ubicaciones***");
+				List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+				ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
+				var codigoUbicacion = Integer.parseInt(consola.nextLine());
+
+				var libros = new Libros();
+				libros.setTitulo(titulo);
+				libros.setCantidad(cantidad);
+				libros.setAutor(autor);
+				libros.setCodigoGenero(codigoGenero);
+				libros.setCodigoUbicacion(codigoUbicacion);
+				libroService.guardarLibro(libros);
+				logger.info("Libro agregado: "+sl +libros +sl);
 			}
-			case 4 ->{}
-			case 5 ->{}
-			case 6 ->{}
-			case 7 ->{}
-			case 8 ->{}
+			case 4 ->{
+						logger.info(sl+"*** Modificar Libro***"+sl);
+						logger.info("Ingrese el codigo del Libro a editar: ");
+						var codigo = Integer.parseInt(consola.nextLine());
+						Libros libros = libroService.buscarLibroProId(codigo);
+						if (libros != null){
+							logger.info("Ingrese el Titulo: ");
+							var titulo = consola.nextLine();
+							logger.info("Ingrese la cantidad: ");
+							var cantidad = Integer.parseInt(consola.nextLine());
+							logger.info("Ingrese el autor: ");
+							var autor = consola.nextLine();
+							logger.info("Ingrese el codig del Genero: ");
+							logger.info(sl+"**Listado de todos los Generos***");
+							List<Generos> generos = generoService.listarGeneros();
+							generos.forEach( generos1 -> logger.info(generos1.toString()+sl));
+							var codigoGenero = Integer.parseInt(consola.nextLine());
+							logger.info("Ingrese el codigo de la Ubicacion: ");
+							logger.info(sl+"**Listado de todos las Ubicaciones***");
+							List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+							ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
+							var codigoUbicacion = Integer.parseInt(consola.nextLine());
+							libros.setTitulo(titulo);
+							libros.setCantidad(cantidad);
+							libros.setAutor(autor);
+							libros.setCodigoGenero(codigoGenero);
+							libros.setCodigoUbicacion(codigoUbicacion);
+							libroService.guardarLibro(libros);
+							logger.info("Libro agregado: "+sl +libros +sl);
+						}else{
+							logger.info("Libro NO encontrado: "+sl+libros+sl);
+						}
+					}
+			case 5 ->{
+						logger.info(sl+"***Eliminar Libro***"+sl);
+						logger.info("Ingerese el codigo de Libro a eliminar");
+						var codigo = Integer.parseInt(consola.nextLine());
+						var libros = libroService.buscarLibroProId(codigo);
+						if (libros != null){
+							libroService.eliminarLibro(libros);
+							logger.info("Libro eliminado, adios: "+sl+libros+sl);
+						}else{
+							logger.info("Libro MO econtrado"+ sl + libros + sl);
+						}
+					}
+			case 6 ->{
 
-			default -> logger.info(sl+"Opcion no valida"sl});
+						logger.info(sl+"**Listado de todos los Generos***");
+						List<Generos> generos = generoService.listarGeneros();
+						generos.forEach( generos1 -> logger.info(generos1.toString()+sl));
+					}
+			case 7 ->{
+
+						logger.info(sl+"**Listado de todos las Ubicaciones***");
+						List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+						ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
+
+					}
+			case 8 ->{
+
+						logger.info("Hasta protonto vaquero" + sl + sl);
+						salir = true;
+					}
+
+			default -> logger.info(sl+"Opcion no valida"+sl);
 		}
-	}
+        return salir;
+    }
 
 }
 
-/*
-
-			case 4 -> {
-							logger.info(sl+"*** Modificar ciente***"+sl);
-							logger.info("Ingrese el codigo del cliente a editar: ");
-							var codigo = Integer.parseInt(consola.nextLine());
-							Cliente cliente = clienteService.buscarClienteProId(codigo);
-							if (cliente != null){
-								logger.info("Ingrese el nombre: ");
-								var nombre = consola.nextLine();
-								logger.info("Ingrese el apellido: ");
-								var apellido = consola.nextLine();
-								logger.info("Ingrese el telefono: ");
-								var telefono = consola.nextLine();
-								logger.info("Ingrese el correo: ");
-								var correo = consola.nextLine();
-								logger.info("Ingrese el genero: ");
-								var genero = consola.nextLine();
-								logger.info("Ingrese la edad: ");
-								var edad = Integer.parseInt(consola.nextLine());
-								cliente.setNombre(nombre);
-								cliente.setApellido(apellido);
-								cliente.setTelefono(telefono);
-								cliente.setCorreo(correo);
-								cliente.setGenero(genero);
-								cliente.setEdad(edad);
-								clienteService.gurdarCliente(cliente);
-								logger.info("Cliente agregado: "+sl +cliente +sl);
-								}else{
-								logger.info("Cliente NO encontrado: "+sl+cliente+sl);
-							}
-
-						}
-			case 5 -> {
-							logger.info(sl+"***Eliminar Cliente***"+sl);
-							logger.info("Ingerese el codigo de cliente a eliminar");
-							var codigo = Integer.parseInt(consola.nextLine());
-							var cliente = clienteService.buscarClienteProId(codigo);
-							if (cliente != null){
-								clienteService.eliminarCliente(cliente);
-								logger.info("Cliente eliminado, adios: "+sl+cliente+sl);
-							}else{
-								logger.info("Cliente MO econtrado"+ sl + cliente + sl);
-							}
-						}
+/*/*
 
 
-			case 6 -> {
-							logger.info("Hasta protonto vaquero" + sl + sl);
-							salir = true;
-						}
+ */
 
-			default -> logger.info("Opcion no validad por hoy");
-		}
-		return salir;
-	}
 
-}
 
-/*
 

@@ -25,7 +25,7 @@ public class LibroService implements ILibroService {
     }
 
     @Override
-    public void guardarLibro(Libros libros) {
+    public  void guardarLibro(Libros libros) {
         crud.save(libros);
     }
 
