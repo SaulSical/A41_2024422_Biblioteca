@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Biblioteca - Inicio</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+        <style>
+            body {
+                background: #1e1e2f;
+                color: white;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                text-align: center;
+            }
+            .title {
+                font-size: 2.5rem;
+                font-weight: bold;
+                margin-bottom: 2rem;
+            }
+            .info {
+                max-width: 700px;
+                font-size: 1.1rem;
+                line-height: 1.6;
+                margin-bottom: 3rem;
+            }
+            .button-group {
+                display: flex;
+                justify-content: center;
+                gap: 3rem; /* 🔹 más separación entre botones */
+            }
+            .button-group .ui-button {
+                min-width: 150px;
+            }
+        </style>
+    </h:head>
+
+    <h:body>
+        <div class="container">
+
+            <!-- Título -->
+            <div class="title">
+                Bienvenidos a la biblioteca de AI
+            </div>
+
+            <!-- Información -->
+            <div class="info">
+                <p>Hola, mi nombre es <strong>Saúl Sical</strong>.</p>
+                <p>Esta aplicación está desarrollada usando <strong>JavaServer Faces (JSF)</strong> con <strong>PrimeFaces</strong> y <strong>Spring Boot</strong>.</p>
+                <p>Su función es gestionar libros, géneros y ubicaciones dentro de una biblioteca de manera sencilla y eficiente.</p>
+            </div>
+
+            <!-- Botones -->
+            <div class="button-group">
+                <h:form>
+                    <p:commandButton value="Libros" icon="pi pi-book"
+                                     styleClass="p-button-raised p-button-rounded p-button-primary"
+                                     action="libros.xhtml"/>
+                    <p:commandButton value="Géneros" icon="pi pi-tags"
+                                     styleClass="p-button-raised p-button-rounded p-button-success"
+                                     action="generos.xhtml"/>
+                    <p:commandButton value="Ubicación" icon="pi pi-map-marker"
+                                     styleClass="p-button-raised p-button-rounded p-button-info"
+                                     action="ubicacion.xhtml"/>
+                </h:form>
+            </div>
+
+        </div>
+    </h:body>
+</h:html>

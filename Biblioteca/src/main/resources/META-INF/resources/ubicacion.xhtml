@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Ubicaciones</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form id="formulario-ubicaciones">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <!-- Menú -->
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Regresar" icon="pi pi-book"
+                                    styleClass="p-button-raised p-button-rounded p-button-primary"
+                                    action="index.xhtml"/>
+                        <p:menuitem value="Nueva Ubicación" icon="pi pi-fw pi-plus"
+                                    actionListener="#{ubicacionController.agregarUbicacion}"
+                                    update=":formulario-modal:ventana-ubicacion"
+                                    oncomplete="PF('VentanaModalUbicacion').show()"/>
+                    </p:menubar>
+                </div>
+
+                <!-- Tabla -->
+                <div class="card">
+                    <p:dataTable value="#{ubicacionController.ubicaciones}" var="ubicacion"
+                                 id="tabla-ubicaciones" widgetVar="tablaUbicaciones">
+                        <f:facet name="header">
+                            <h3>Kinvana - Ubicaciones</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{ubicacion.codigoUbicacion}"/>
+                        </p:column>
+
+                        <p:column headerText="Edificio">
+                            <h:outputText value="#{ubicacion.edificio}"/>
+                        </p:column>
+
+                        <p:column headerText="Sala">
+                            <h:outputText value="#{ubicacion.sala}"/>
+                        </p:column>
+
+                        <p:column headerText="Estante">
+                            <h:outputText value="#{ubicacion.estante}"/>
+                        </p:column>
+
+                        <p:column headerText="Fila">
+                            <h:outputText value="#{ubicacion.fila}"/>
+                        </p:column>
+
+                        <p:column headerText="Columna">
+                            <h:outputText value="#{ubicacion.columna}"/>
+                        </p:column>
+
+                        <p:column headerText="Opciones">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update="formulario-modal:ventana-ubicacion"
+                                             process="@this"
+                                             oncomplete="PF('VentanaModalUbicacion').show()">
+                                <f:setPropertyActionListener value="#{ubicacion}"
+                                                             target="#{ubicacionController.ubicacionSeleccionada}"/>
+                                <p:resetInput target=":formulario-modal:ventana-ubicacion"/>
+                            </p:commandButton>
+
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('VentanaEliminarUbicacion').show()">
+                                <f:setPropertyActionListener value="#{ubicacion}"
+                                                             target="#{ubicacionController.ubicacionSeleccionada}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <!-- Modal para crear/editar -->
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle de Ubicación" showEffect="fade"
+                          modal="true" widgetVar="VentanaModalUbicacion" responsive="true">
+                    <p:outputPanel id="ventana-ubicacion" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="idubicacion">ID UBICACIÓN</p:outputLabel>
+                            <p:inputText id="idubicacion" disabled="true"
+                                         value="#{ubicacionController.ubicacionSeleccionada.codigoUbicacion}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="edificio">EDIFICIO</p:outputLabel>
+                            <p:inputText id="edificio" required="true"
+                                         value="#{ubicacionController.ubicacionSeleccionada.edificio}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="sala">SALA</p:outputLabel>
+                            <p:inputText id="sala" required="true"
+                                         value="#{ubicacionController.ubicacionSeleccionada.sala}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="estante">ESTANTE</p:outputLabel>
+                            <p:inputText id="estante" value="#{ubicacionController.ubicacionSeleccionada.estante}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="fila">FILA</p:outputLabel>
+                            <p:inputText id="fila" value="#{ubicacionController.ubicacionSeleccionada.fila}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="columna">COLUMNA</p:outputLabel>
+                            <p:inputText id="columna" value="#{ubicacionController.ubicacionSeleccionada.columna}"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         class="ui-button-primary"
+                                         process="ventana-ubicacion @this"
+                                         actionListener="#{ubicacionController.guardarUbicacion}"/>
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('VentanaModalUbicacion').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <!-- Confirmación de eliminar -->
+                <p:confirmDialog widgetVar="VentanaEliminarUbicacion" showEffect="fade"
+                                 width="300" message="¿Desea eliminar la ubicación?"
+                                 header="Confirmación" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{ubicacionController.eliminarUbicacion}"
+                                     oncomplete="PF('VentanaEliminarUbicacion').hide()"/>
+
+                    <p:commandButton value="No" icon="pi pi-times" class="ui-button-warning"
+                                     onclick="PF('VentanaEliminarUbicacion').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

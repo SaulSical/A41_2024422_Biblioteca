@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Scanner;
 import org.datacoins.biblioteca.persistence.entity.Libros;
 
-@SpringBootApplication
+//@SpringBootApplication
 public class BibliotecaApplication implements CommandLineRunner {
 
 	@Autowired
@@ -107,7 +107,7 @@ public class BibliotecaApplication implements CommandLineRunner {
 				var codigoGenero = Integer.parseInt(consola.nextLine());
 				logger.info("Ingrese el codigo de la Ubicacion: ");
 				logger.info(sl+"**Listado de todos las Ubicaciones***");
-				List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+				List<Ubicacion> ubicacions = ubicacionService.listarUbicaciones();
 				ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
 				var codigoUbicacion = Integer.parseInt(consola.nextLine());
 
@@ -139,7 +139,7 @@ public class BibliotecaApplication implements CommandLineRunner {
 							var codigoGenero = Integer.parseInt(consola.nextLine());
 							logger.info("Ingrese el codigo de la Ubicacion: ");
 							logger.info(sl+"**Listado de todos las Ubicaciones***");
-							List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+							List<Ubicacion> ubicacions = ubicacionService.listarUbicaciones();
 							ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
 							var codigoUbicacion = Integer.parseInt(consola.nextLine());
 							libros.setTitulo(titulo);
@@ -174,7 +174,7 @@ public class BibliotecaApplication implements CommandLineRunner {
 			case 7 ->{
 
 						logger.info(sl+"**Listado de todos las Ubicaciones***");
-						List<Ubicacion> ubicacions = ubicacionService.listarUbicacion();
+						List<Ubicacion> ubicacions = ubicacionService.listarUbicaciones();
 						ubicacions.forEach( ubicacion1 -> logger.info(ubicacion1.toString()+sl));
 
 					}
