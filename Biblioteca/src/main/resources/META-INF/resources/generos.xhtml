@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<h:html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Géneros</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/themes/primeone-dark.css"/>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <!-- Formulario principal -->
+            <h:form id="formulario-generos">
+                <p:growl id="mensaje_emergente" showDetails="true"/>
+
+                <!-- Menú -->
+                <div class="card">
+                    <p:menubar>
+                        <p:menuitem value="Regresar" icon="pi pi-book"
+                                    styleClass="p-button-raised p-button-rounded p-button-primary"
+                                    action="index.xhtml"/>
+
+                        <p:menuitem value="Nuevo Género" icon="pi pi-fw pi-plus"
+                                    actionListener="#{generosController.agregarGenero}"
+                                    update=":formulario-modal:ventana-genero"
+                                    oncomplete="PF('VentanaModalGenero').show()"/>
+
+                    </p:menubar>
+                </div>
+
+                <!-- Tabla -->
+                <div class="card">
+                    <p:dataTable value="#{generosController.generos}" var="genero"
+                                 id="tabla-generos" widgetVar="tablaGeneros">
+                        <f:facet name="header">
+                            <h3>Kinvana - Géneros</h3>
+                        </f:facet>
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{genero.codigoGenero}"/>
+                        </p:column>
+
+                        <p:column headerText="Tipo de Género">
+                            <h:outputText value="#{genero.tipoGenero}"/>
+                        </p:column>
+
+                        <p:column headerText="Opciones">
+                            <p:commandButton value="Editar" icon="pi pi-pencil" class="ui-button-primary"
+                                             update="formulario-modal:ventana-genero"
+                                             process="@this"
+                                             oncomplete="PF('VentanaModalGenero').show()">
+                                <f:setPropertyActionListener value="#{genero}"
+                                                             target="#{generosController.generoSeleccionado}"/>
+                                <p:resetInput target=":formulario-modal:ventana-genero"/>
+                            </p:commandButton>
+
+                            <p:commandButton value="Eliminar" icon="pi pi-trash" class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('VentanaEliminarGenero').show()">
+                                <f:setPropertyActionListener value="#{genero}"
+                                                             target="#{generosController.generoSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <!-- Modal para crear/editar -->
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle del género" showEffect="fade"
+                          modal="true" widgetVar="VentanaModalGenero" responsive="true">
+                    <p:outputPanel id="ventana-genero" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="idgenero">ID GÉNERO</p:outputLabel>
+                            <p:inputText id="idgenero" disabled="true"
+                                         value="#{generosController.generoSeleccionado.codigoGenero}"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="tipogenero">TIPO GÉNERO</p:outputLabel>
+                            <p:inputText id="tipogenero" required="true"
+                                         value="#{generosController.generoSeleccionado.tipoGenero}"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         class="ui-button-primary"
+                                         process="ventana-genero @this"
+                                         actionListener="#{generosController.guardarGenero}"/>
+
+                        <p:commandButton value="Cancelar" icon="pi pi-times" class="ui-button-secondary"
+                                         onclick="PF('VentanaModalGenero').hide()" type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <!-- Confirmación de eliminar -->
+                <p:confirmDialog widgetVar="VentanaEliminarGenero" showEffect="fade"
+                                 width="300" message="¿Desea eliminar el género?"
+                                 header="Confirmación" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check" class="ui-button-primary"
+                                     process="@this"
+                                     actionListener="#{generosController.eliminarGenero}"
+                                     oncomplete="PF('VentanaEliminarGenero').hide()"/>
+
+                    <p:commandButton value="No" icon="pi pi-times" class="ui-button-warning"
+                                     onclick="PF('VentanaEliminarGenero').hide()"
+                                     type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>

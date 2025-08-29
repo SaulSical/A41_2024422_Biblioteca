@@ -9,17 +9,16 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.datacoins</groupId>
-	<artifactId>biblioteca</artifactId>
+	<artifactId>A41_2024422_Biblioteca</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>biblioteca</name>
+	<name>A41_2024422_Biblioteca</name>
 	<description>Desarrolla una aplicación de consola para administrar los libros de una
 		biblioteca. El sistema debe permitir a los bibliotecarios registrar nuevos
 		libros, ver la lista completa de libros disponibles y buscar libros por
 		título, autor o género, actualizar la información de un libro existente, como
 		su cantidad o ubicación, y eliminar un libro del registro. La información de
 		los libros (ID, título, autor, género, cantidad) deberá persistir en una base
-		de datos.
-	</description>
+		de datos.</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -35,13 +34,26 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+
+		<joinfaces.version>5.4.3</joinfaces.version>
+
+		<lombok.version>1.18.38</lombok.version>
+
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.joinfaces</groupId>
+			<artifactId>primefaces-spring-boot-starter</artifactId>
+			<version>${joinfaces.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -50,12 +62,18 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<version>${lombok.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.formdev</groupId>
+			<artifactId>flatlaf</artifactId>
+			<version>3.0</version>
 		</dependency>
 	</dependencies>
 
@@ -69,6 +87,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.38</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
